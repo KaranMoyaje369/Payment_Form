@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/a3ea406bfd.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <h2>Saving Account</h2>
+        <form action="" method="post">
+            <!--Account Information Start-->
+            <h4>Personal Information</h4>
+            <div class="input_group">
+                <div class="input_box">
+                    <input type="text" placeholder="Full Name" required class="name">
+                    <i class="fa fa-user icon"></i>
+                </div>
+
+            </div>
+            <div class="input_group">
+                <div class="input_box">
+                    <input type="email" placeholder="Email Address" required class="name">
+                    <i class="fa fa-envelope icon"></i>
+                </div>
+            </div>
+            <div class="input_group">
+                <div class="input_box">
+                    <input type="text" placeholder="Address" required class="name">
+                    <i class="fa-solid fa-house-user icon" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="input_group">
+                <div class="input_box">
+                    <input type="text" placeholder="Enter Pincode" required class="name">
+                    <i class="fa-solid fa-location-pin icon" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="input_group">
+                <div class="input_box">
+                    <input type="text" placeholder="City" required class="name">
+                    <i class="fa fa-institution icon"></i>
+                </div>
+            </div>
+            <div class="input_group">
+                <div class="input_box">
+                    <input type="text" placeholder="Enter PAN Card Number" required class="name">
+                    <i class="fa-solid fa-id-card icon"></i>                </div>
+            </div>
+            <div class="input_group">
+                <div class="input_box">
+                    <input type="text" placeholder="Enter Adhar Card Number" required class="name">
+                    <i class="fa-solid fa-id-card icon"></i>                </div>
+            </div>
+            <!--Account Information End-->
+
+
+            <!--DOB & Gender Start-->
+            <div class="input_group res">
+                <div class="input_box">
+                    <h4 class="alg ">Date Of Birth</h4>
+                    <input type="text" placeholder="DD" required class="dob">
+                    <input type="text" placeholder="MM" required class="dob">
+                    <input type="text" placeholder="YYYY" required class="dob">
+                </div>
+                <div class="input_box res res1">
+                    <h4 class="alg res1">Gender</h4>
+                    <input type="radio" name="gender" class="radio" id="b1" checked>
+                    <label for="b1">Male</label>
+                    <input type="radio" name="gender" class="radio" id="b2">
+                    <label for="b2">Female</label>
+                </div>
+            </div>
+            <!--DOB & Gender End-->
+
+
+
+
+            <!-- Payment Amount -->
+            <center>
+                <div class="input_group">
+                    <div class="input_box">
+                        <!-- <h4>Payment Amount</h4> -->
+                        <input type="text" id="amount" placeholder="Enter Amount" required class="dob">
+                    </div>
+                </div>
+
+                <div class="input_group">
+                    <div class="input_box">
+                        <button type="button" id="payButton">PAY NOW</button>
+                    </div>
+                </div>
+            </center>
+
+        </form>
+    </div>
+
+
+    <!-- Include Razorpay JavaScript SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+        // Function to check if all required fields are filled
+        function checkForm() {
+            var inputs = document.querySelectorAll('input[required]');
+            for (var i = 0; i < inputs.length; i++) {
+                if (!inputs[i].value) {
+                    return false; // If any required field is empty, return false
+                }
+            }
+            return true; // All required fields are filled
+        }
+
+        var payButton = document.getElementById('payButton');
+        payButton.addEventListener('click', function () {
+            var amount = document.getElementById('amount').value;
+            if (!checkForm()) {
+                alert("Please fill in all required fields.");
+                return; // Prevent payment if any required field is empty
+            }
+
+            var options = {
+                "key": "rzp_test_hgQtYKtgJ2J1cE",
+                "amount": amount * 100,
+                "currency": "INR",
+                "name": "Karan Developer",
+                "description": "Payment for your services",
+                "handler": function (response) {
+                    alert("Payment successful. Payment ID: " + response.razorpay_payment_id);
+                },
+                "prefill": {},
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+
+            var rzp = new Razorpay(options);
+            rzp.open();
+        });
+    </script>
+
+
+</body>
+
+</html>
